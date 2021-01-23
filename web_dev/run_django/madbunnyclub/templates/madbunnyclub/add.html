@@ -1,0 +1,12 @@
+{%extends "madbunnyclub/layout.html" %}
+ 
+{% block body %}  
+        <h1> add a task </h1>
+        <form action="{%url 'madbunnyclub:add' %}" method = 'post'>
+            {%csrf_token%}
+            {{ form}}
+            
+            <input type="submit">
+        </form>
+        <a href="{% url 'madbunnyclub:index' %}"> View Tasks </a>
+{% endblock %}

@@ -1,0 +1,59 @@
+{%load static%}
+<!DOCTYPE html>
+<html lang='en'>
+    <head>
+        <title>Secret Portal Access Pending</title>
+        <style>
+            body {
+            
+            background-color: orange;
+            }
+            h1{
+                color:blue;
+
+    }
+            h2 {
+                color: green;
+                text-align: center;
+                }
+            
+        </style>
+    </head>
+    <body>  
+        
+        <img src="{% static 'dwarfrabbitclub/face.png' %}" alt="img fail" width = "500" >
+        
+        <a href = "{% url 'madbunnyclub:root'%}">
+            Logout
+        </a>
+        <h1> if the user logged in is the admin for the site, they
+            can modify the message shown on this page and any documents 
+            such as maps
+        </h1>
+        <h2>
+            the admin should also be able to designate which guests have +1 or +x
+            privileges perhaps
+        </h2>
+        <h1>
+            The campsite admin also has the ability to set up a 'necessary items' list
+            which the other users will interact with
+        <h1>
+        <h2>
+            I would like to talk more about the overall design
+        </h2>
+        <h1>
+            do you see it being anonymous- where people use usernames that we generate and
+            we can keep the site anonymous that way
+        </h1>
+        <h2>
+            or maybe people can sign up with their own usernames in which case it would not be      anonymous
+            
+        </h2>
+
+        <a href = "{% url 'dwarfrabbitclub:to_do'%}">
+            To-Bring-Items
+        </a>
+        
+        
+    </body>
+</html>

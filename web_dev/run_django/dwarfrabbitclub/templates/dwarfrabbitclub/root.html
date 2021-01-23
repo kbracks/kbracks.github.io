@@ -1,0 +1,22 @@
+{%load static%}
+<!DOCTYPE html>
+<html lang='en'>
+    <head>
+        <title>Secret Portal Access Pending</title>
+    </head>
+    <body>  
+        
+        <img src="{% static 'dwarfrabbitclub/other.jpeg' %}" alt="img fail" width = "500" >
+        
+        <a href = "{% url 'madbunnyclub:root'%}">
+            I shouldn't be here
+        </a>
+        <form action="{%url 'dwarfrabbitclub:root' %}" method = 'post'>
+            {%csrf_token%}
+            {{ form}}
+            
+            <input type="submit">
+        </form>
+        
+    </body>
+</html>
