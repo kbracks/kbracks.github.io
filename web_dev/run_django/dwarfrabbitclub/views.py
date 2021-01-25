@@ -3,12 +3,23 @@ from django.http import HttpResponse
 from django import forms
 from django.http import HttpResponseRedirect
 from django.urls import reverse
+from .models import Camp, ItemList
 # Create your views here.
 class AccessForm(forms.Form):
     usercode = forms.CharField(label="Usercode")
     campcode = forms.CharField(label="Campcode")
     def passcodeCorrect(self):
-        return self.cleaned_data['campcode'] == 'camp0' and self.cleaned_data['usercode'] == 'mad_bunny_lover'
+        camp = self.cleaned_data['campcode']
+        user = self.cleaned_data['usercode']
+        if len(Camp.objects.filter(name = camp))==0: return False
+        for invitee in Camp.objects.filter(name = camp).first().members.all():
+            if user == invitee.code:
+                return True
+        return False
+
+            
+            
+        
 def root(request):
     if request.method == 'POST':
         #process the request 
@@ -27,4 +38,4 @@ def entry(request):
 
 
 def to_do(request):
-    return render(request,"dwarfrabbitclub/to_do.html")
+    return render(request,"dwarfrabbitclub/to_do.html", {"item_list":ItemList.objects.all().first().items.all()})

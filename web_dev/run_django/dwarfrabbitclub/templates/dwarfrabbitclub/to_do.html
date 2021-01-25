@@ -11,11 +11,9 @@
             Home
         </a>
         <ul>
-            <li> Propane </li>
-            <li> Gallon of water </li>
-            <li> Olive Oil </li>
-            <li> Jacuzzi </li>
-            <li> Universe </li>
+            {% for item in item_list %}
+            <li> {{item.name}}  {{item.quantity}}</li>
+            {%endfor%}
         </ul>
         
     </body>
