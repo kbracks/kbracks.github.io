@@ -56,7 +56,7 @@ ROOT_URLCONF = 'run_django.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [str(BASE_DIR.joinpath('templates'))], #this element inside dirs not actually needed django will find the registration template it self
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

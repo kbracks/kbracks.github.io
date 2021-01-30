@@ -48,4 +48,11 @@ class AddItem(models.Model):
     item = models.ForeignKey(ListItem,on_delete = models.CASCADE)
     lst = models.ForeignKey(ItemList,on_delete = models.CASCADE)
     
-    
+class PendingUser(models.Model):
+    name = models.CharField(max_length=64)
+#    username = models.CharField(max_length=64)
+#    password = models.CharField(max_length=64)
+#    email = models.EmailField(max_length=64)
+#    phone = models.CharField(max_length=64)
+#    statement = models.CharField(max_length=128)
+#    

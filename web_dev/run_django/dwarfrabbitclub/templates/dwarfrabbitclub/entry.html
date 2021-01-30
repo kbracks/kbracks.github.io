@@ -20,39 +20,27 @@
         </style>
     </head>
     <body>  
-        
+        {% if user.is_authenticated %}
+        <p>Authenticated as
+        <pre> Name: {{user.get_full_name }}
+        </pre>
+        </p>
+        <p> You can <a href = "{%url 'logout' %}?next={%url 'dwarfrabbitclub:root' %}"> Logout </a></p>
         <img src="{% static 'dwarfrabbitclub/face.png' %}" alt="img fail" width = "500" >
         
         <a href = "{% url 'madbunnyclub:root'%}">
-            Logout
+            Go back to bunny ranching
         </a>
-        <h1> if the user logged in is the admin for the site, they
-            can modify the message shown on this page and any documents 
-            such as maps
-        </h1>
-        <h2>
-            the admin should also be able to designate which guests have +1 or +x
-            privileges perhaps
-        </h2>
-        <h1>
-            The campsite admin also has the ability to set up a 'necessary items' list
-            which the other users will interact with
-        <h1>
-        <h2>
-            I would like to talk more about the overall design
-        </h2>
-        <h1>
-            do you see it being anonymous- where people use usernames that we generate and
-            we can keep the site anonymous that way
-        </h1>
-        <h2>
-            or maybe people can sign up with their own usernames in which case it would not be      anonymous
-            
-        </h2>
-
+<p>
         <a href = "{% url 'dwarfrabbitclub:to_do'%}">
             To-Bring-Items
         </a>
+</p>
+        
+        {%else%}
+        <p> you are not logged in </p>
+        <p> you can <a href = "{%url 'login'%}?next={{request.path}}"> Login</a> if you like </p>
+        {%endif%}
         
         
     </body>
