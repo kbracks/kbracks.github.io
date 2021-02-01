@@ -3,9 +3,31 @@ from django.http import HttpResponse
 from django import forms
 from django.http import HttpResponseRedirect
 from django.urls import reverse
-from .models import Camp, ItemList, PendingUser
+from .models import Camp, ItemList, PendingUser, UserSession
 from django.contrib.auth.models import User
 from django.contrib.sessions.models import Session
+
+
+
+from django.contrib.auth.signals import user_logged_in
+
+
+
+def user_logged_in_handler(sender, request, user, **kwargs):
+    UserSession.objects.get_or_create(
+        user = user,
+        session_id = request.session.session_key
+    )
+    
+
+user_logged_in.connect(user_logged_in_handler)
+
+#def delete_user_sessions(user): #not used code
+#    user_sessions = UserSession.objects.filter(user = user)
+#    for user_session in user_sessions:
+#        user_session.session.delete()
+
+
 
 # Create your views here.
 class AccessForm(forms.Form):
@@ -24,15 +46,21 @@ class AccessForm(forms.Form):
 
 class CreateUserForm(forms.Form):
     full_name = forms.CharField(label="Full Name")
-    #desired_username = forms.CharField(label="Desired Username")
-    #desired_password = forms.CharField(label="Desired Password")
-    #email_address = forms.EmailField(label="Email Address")
-    #phone_number = forms.CharField(label="Phone Number")
-    #personal_statement = forms.CharField(label="How did you find out about this and please include lots of detail")
+    desired_username = forms.CharField(label="Desired Username")
+    desired_password = forms.CharField(label="Desired Password")
+    email_address = forms.EmailField(label="Email Address")
+    phone_number = forms.CharField(label="Phone Number")
+    personal_statement = forms.CharField(label="How did you find out about this and please include lots of detail")
 #    def __dict__(self):
 #        return {0: self.full_name, 1: self.desired_username, 2:self.desired_password, 3:self.email_address,4:self.phone_number,5:self.personal_statement}
     def create_pending_user(self):
-        PendingUser.objects.create(name = self.cleaned_data['full_name'])#,username = self.desired_username, password = self.desired_password, email = self.email_address,phone = self.phone_number,statement = self.personal_statement)
+        c_name = self.cleaned_data['full_name']
+        c_username = self.cleaned_data['desired_username']
+        c_password = self.cleaned_data['desired_password']
+        c_email = self.cleaned_data['email_address']
+        c_phone = self.cleaned_data['phone_number']
+        c_statement = self.cleaned_data['personal_statement']
+        PendingUser.objects.create(name = c_name,username = c_username, password = c_password, email = c_email,phone = c_phone,statement = c_statement)
         
         return 
     
@@ -77,6 +105,7 @@ def entry(request):
 
 
 def to_do(request):
+#in admin when i create a new item it is not added to the item list automatically
     return render(request,"dwarfrabbitclub/to_do.html", {"item_list":ItemList.objects.all().first().items.all()})
 
 #code below is not in use

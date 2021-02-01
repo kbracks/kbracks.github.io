@@ -1,5 +1,21 @@
 from django.db import models
 import datetime
+
+
+from django.conf import settings
+from django.contrib.sessions.models import Session
+
+
+class UserSession(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete = models.CASCADE)
+    session = models.ForeignKey(Session,on_delete = models.CASCADE)  
+
+
+
+
+
+
+
 # Create your models here.
 
 class Date(models.Model):
@@ -49,10 +65,10 @@ class AddItem(models.Model):
     lst = models.ForeignKey(ItemList,on_delete = models.CASCADE)
     
 class PendingUser(models.Model):
-    name = models.CharField(max_length=64)
-#    username = models.CharField(max_length=64)
-#    password = models.CharField(max_length=64)
-#    email = models.EmailField(max_length=64)
-#    phone = models.CharField(max_length=64)
-#    statement = models.CharField(max_length=128)
-#    
+    name = models.CharField(max_length=64,null=True)
+    username = models.CharField(max_length=64,null=True)
+    password = models.CharField(max_length=64,null=True)
+    email = models.EmailField(max_length=64,null=True)
+    phone = models.CharField(max_length=64,null=True)
+    statement = models.CharField(max_length=128,null=True)
+    
