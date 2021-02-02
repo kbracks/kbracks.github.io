@@ -64,7 +64,9 @@ class CreateUserForm(forms.Form):
         
         return 
     
-
+class AcceptPending(forms.Form):
+    user = forms.IntegerField(label = 'Pending User ID to Accept')
+    
        
 def create_user(request):
     #make sure this user is pending
@@ -101,8 +103,23 @@ def root(request):
 
 
 def entry(request):
-    return render(request,"dwarfrabbitclub/entry.html")
+    #if not request.user.is_authenticated: return render(request,'registration/login.html')
+    if request.user.has_perm('dwarfrabbitclub.can_modify'):
+        destination = "dwarfrabbitclub/entry_admin.html"
+    else: destination = "dwarfrabbitclub/entry.html"
+    return render(request,destination)
 
+def modify_pending(request):
+    if request.method == 'POST':
+        form = AcceptPending(request.POST)
+        if form.is_valid():
+            i_d = form.cleaned_data['user']
+            p_u = PendingUser.objects.all().get(id=i_d)
+            new_user = User(username = p_u.username)
+            new_user.set_password(p_u.password)
+            new_user.save()
+            PendingUser.objects.filter(id=p_u.id).delete()
+    return render(request, "dwarfrabbitclub/modify_pending.html",{'pending_users':PendingUser.objects.all(),'form':AcceptPending()})
 
 def to_do(request):
 #in admin when i create a new item it is not added to the item list automatically
